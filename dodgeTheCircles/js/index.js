@@ -34,14 +34,12 @@ let arrows = {
 
 let requestId;
 let gameOver = false;
-let onScreenEnemies = [];
 let enemies = [];
 
 function getEnemies() {
   enemies.push(new Enemy());
 }
 setInterval(getEnemies, 200);
-
 function drawGame() {
   clearScreen(ctx, canvas);
   enemyUpdate();
@@ -55,13 +53,13 @@ function drawGame() {
 }
 
 function enemyUpdate() {
+  enemies = enemies.filter((enemy) =>
+    isNearEdge(enemy.x, enemy.y, canvas.clientWidth, canvas.clientHeight)
+  );
   enemies.forEach((enemy) => {
     enemy.draw(ctx);
     gameOver = checkGame(enemy, gameOver, whiteBlob);
     enemy.update();
-    if (!isNearEdge(enemy.x, enemy.y)) {
-      enemies.splice(enemies.indexOf(enemy), 1);
-    }
   });
 }
 

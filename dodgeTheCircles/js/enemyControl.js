@@ -2,9 +2,6 @@ import { getRandom } from "./misc";
 
 export class Enemy {
   constructor() {
-    let r = getRandom(50, 220);
-    let g = getRandom(50, 220);
-    let b = getRandom(50, 220);
     (this.x = 0),
       (this.y = 0),
       (this.speedX = 0),

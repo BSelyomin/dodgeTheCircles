@@ -34,12 +34,12 @@ export function clearScreen(ctx, canvas) {
   ctx.fillRect(0, 0, canvas.clientWidth, canvas.height);
 }
 
-export function isNearEdge(x, y) {
+export function isNearEdge(x, y, width, height) {
   switch (true) {
     case x < -100:
-    case x > 1100:
+    case x > width + 100:
     case y < -100:
-    case y > 700:
+    case y > height + 100:
       return false;
     default:
       return true;

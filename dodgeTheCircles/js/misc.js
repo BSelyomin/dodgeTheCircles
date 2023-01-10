@@ -45,3 +45,11 @@ export function isNearEdge(x, y, width, height) {
       return true;
   }
 }
+
+export function radiusChecker(r1, r2) {
+  if (r1 > r2) {
+    return true;
+  } else {
+    return false;
+  }
+}

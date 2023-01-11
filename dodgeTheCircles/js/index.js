@@ -32,12 +32,13 @@ let arrows = {
   rightPressed: false,
 };
 
-let requestId;
-let gameOver = false;
-let enemies = [];
+let requestId,
+  gameOver = false,
+  enemies = [],
+  multiplier = 0;
 
 function getEnemies() {
-  enemies.push(new Enemy());
+  enemies.push(new Enemy(multiplier));
 }
 setInterval(getEnemies, 200);
 
@@ -58,7 +59,9 @@ function enemyUpdate() {
   );
   enemies.forEach((enemy) => {
     enemy.draw(ctx);
-    determineGame(enemy, whiteBlob);
+    if (!gameOver) {
+      determineGame(enemy, whiteBlob);
+    }
     enemy.update();
   });
 }
@@ -67,8 +70,9 @@ function determineGame(enemy, whiteBlob) {
   if (blob.checkGame(enemy, gameOver, whiteBlob)) {
     if (whiteBlob.radius < enemy.radius) {
       return (gameOver = true);
-    } else {
-      whiteBlob.radius += enemy.radius / 3;
+    } else if (whiteBlob.radius >= enemy.radius) {
+      whiteBlob.radius += 2;
+      multiplier += 2;
       return enemies.splice(enemies.indexOf(enemy), 1);
     }
   }

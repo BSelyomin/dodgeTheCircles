@@ -1,12 +1,12 @@
 import { getRandom } from "./misc";
 
 export class Enemy {
-  constructor() {
+  constructor(mult) {
     (this.x = 0),
       (this.y = 0),
       (this.speedX = 0),
       (this.speedY = 0),
-      (this.radius = getRandom(10, 50));
+      (this.radius = getRandom(10 + mult, 50 + mult));
     this.color = `rgb(
         ${getRandom(50, 220)},
         ${getRandom(50, 220)},

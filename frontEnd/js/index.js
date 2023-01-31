@@ -2,10 +2,15 @@ import * as misc from "./misc";
 import * as blob from "./whiteBlob";
 import * as keys from "./keyControl";
 import { Enemy } from "./enemyControl";
+import "../css/style.css";
 
 const canvas = document.getElementById("gameArea");
 const ctx = canvas.getContext("2d");
 
+canvas.width = window.innerWidth - 17;
+canvas.height = window.innerHeight - 17;
+
+console.log(window.innerHeight, window.innerWidth);
 misc.clearScreen(ctx, canvas);
 
 let whiteBlob = {
@@ -38,9 +43,9 @@ let requestId,
   multiplier = 0;
 
 function getEnemies() {
-  enemies.push(new Enemy(multiplier));
+  enemies.push(new Enemy(multiplier, canvas.clientWidth, canvas.clientHeight));
 }
-setInterval(getEnemies, 200);
+setInterval(getEnemies, canvas.width / 100);
 
 function drawGame() {
   misc.clearScreen(ctx, canvas);
@@ -87,3 +92,12 @@ function newGame() {
   enemies = [];
   drawGame();
 }
+
+fetch("http://localhost:3000", {
+  method: "POST",
+  body: JSON.stringify({ whiteBlob }),
+  headers: { "Content-Type": "application/json" },
+})
+  .then((res) => res.json())
+  .then((response) => console.log("Success:", JSON.stringify(response)))
+  .catch((error) => console.error("Error:", error));

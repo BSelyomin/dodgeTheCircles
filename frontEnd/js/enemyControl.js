@@ -1,7 +1,7 @@
 import { getRandom } from "./misc";
 
 export class Enemy {
-  constructor(mult) {
+  constructor(mult, width, height) {
     (this.x = 0),
       (this.y = 0),
       (this.speedX = 0),
@@ -11,33 +11,33 @@ export class Enemy {
         ${getRandom(50, 220)},
         ${getRandom(50, 220)},
         ${getRandom(50, 220)})`;
-    this.randomizePosition();
+    this.randomizePosition(width, height);
   }
 
-  randomizePosition() {
+  randomizePosition(width, height) {
     const ran = getRandom(1, 4);
     switch (ran) {
       case 1:
         this.x = -this.radius;
-        this.y = getRandom(0, 600);
+        this.y = getRandom(0, height);
         this.speedX = getRandom(0.5, 4);
         this.speedY = getRandom(-4, 4);
         break;
       case 2:
         this.y = -this.radius;
-        this.x = getRandom(0, 1000);
+        this.x = getRandom(0, width);
         this.speedX = getRandom(-4, 4);
         this.speedY = getRandom(0.5, 4);
         break;
       case 3:
-        this.y = getRandom(0, 600);
-        this.x = 1000 + this.radius;
+        this.y = getRandom(0, height);
+        this.x = width + this.radius;
         this.speedX = getRandom(-4, -0.5);
         this.speedY = getRandom(-4, 4);
         break;
       case 4:
-        this.y = 600 + this.radius;
-        this.x = getRandom(0, 1000);
+        this.y = height + this.radius;
+        this.x = getRandom(0, width);
         this.speedX = getRandom(-4, 4);
         this.speedY = getRandom(-4, -0.5);
     }

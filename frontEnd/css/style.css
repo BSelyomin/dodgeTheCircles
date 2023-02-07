@@ -1,4 +1,6 @@
 canvas {
     position: absolute;
     margin: auto;
+    width: 100vw - 17;
+    height: 100vh - 17;
 }

@@ -7,10 +7,9 @@ import "../css/style.css";
 const canvas = document.getElementById("gameArea");
 const ctx = canvas.getContext("2d");
 
-canvas.width = window.innerWidth - 17;
-canvas.height = window.innerHeight - 17;
+ctx.font = "48px sans-serif";
+ctx.fillStyle = "black";
 
-console.log(window.innerHeight, window.innerWidth);
 misc.clearScreen(ctx, canvas);
 
 let whiteBlob = {
@@ -18,6 +17,18 @@ let whiteBlob = {
   y: 300,
   radius: 15,
   speed: 7,
+};
+
+window.onload = () => {
+  canvas.width = window.innerWidth - 17;
+  canvas.height = window.innerHeight - 17;
+  misc.clearScreen(ctx, canvas);
+};
+
+window.onresize = () => {
+  canvas.width = window.innerWidth - 17;
+  canvas.height = window.innerHeight - 17;
+  misc.clearScreen(ctx, canvas);
 };
 
 document.body.addEventListener(
@@ -40,16 +51,19 @@ let arrows = {
 let requestId,
   gameOver = false,
   enemies = [],
-  multiplier = 0;
+  multiplier = 0,
+  score = 0;
 
 function getEnemies() {
   enemies.push(new Enemy(multiplier, canvas.clientWidth, canvas.clientHeight));
+  console.log(enemies.length);
 }
-setInterval(getEnemies, canvas.width / 100);
 
 function drawGame() {
   misc.clearScreen(ctx, canvas);
+
   enemyUpdate();
+  misc.genText(ctx, 100, 100, score);
   whiteBlob = keys.inputs(whiteBlob, arrows);
   whiteBlob = blob.whiteBlobBoundry(whiteBlob, canvas);
   blob.drawWhiteBlob(whiteBlob, ctx);
@@ -78,6 +92,7 @@ function determineGame(enemy, whiteBlob) {
     } else if (whiteBlob.radius >= enemy.radius) {
       whiteBlob.radius += 2;
       multiplier += 2;
+      score++;
       return enemies.splice(enemies.indexOf(enemy), 1);
     }
   }
@@ -90,14 +105,41 @@ function newGame() {
   whiteBlob.y = 300;
   whiteBlob.radius = 15;
   enemies = [];
+  misc.genText(ctx, canvas.width - 100, canvas.height - 100, score);
+  setInterval(getEnemies, canvas.width / 50);
   drawGame();
 }
 
-fetch("http://localhost:3000", {
-  method: "POST",
-  body: JSON.stringify({ whiteBlob }),
-  headers: { "Content-Type": "application/json" },
-})
-  .then((res) => res.json())
-  .then((response) => console.log("Success:", JSON.stringify(response)))
-  .catch((error) => console.error("Error:", error));
+// async function sendElements() {
+//   const elements = [1, 2, 3];
+//   try {
+//     let response = await fetch("http://localhost:3000/accept-elements", {
+//       method: "POST",
+//       mode: "no-cors",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({ elements }),
+//     });
+//     if (!response.ok) {
+//       // throw new Error(`Response status: ${response.status}`);
+//     }
+//     let data = await response.json();
+//     console.log(data.message);
+//   } catch (error) {
+//     console.error("An error occurred:", error);
+//   }
+// }
+// sendElements();
+
+async function sendData(data) {
+  const response = await fetch("http://localhost:5000/data", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ data: data }),
+  });
+  const result = await response.json();
+  console.log(result);
+}
+
+sendData([1, 2, 3, 4]);

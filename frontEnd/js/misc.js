@@ -53,3 +53,9 @@ export function radiusChecker(r1, r2) {
     return false;
   }
 }
+
+export function genText(ctx, x, y, text) {
+  ctx.font = "48px robotto";
+  ctx.fillStyle = "white";
+  ctx.fillText(`Score: ${text}`, x, y);
+}

@@ -56,10 +56,11 @@ let requestId,
 function getEnemies() {
   enemies.push(new Enemy(multiplier, canvas.clientWidth, canvas.clientHeight));
 }
+setInterval(getEnemies, canvas.width / 10);
 
 function drawGame() {
   misc.clearScreen(ctx, canvas);
-  sendElements(enemies);
+  // sendElements(enemies);
 
   enemyUpdate();
   misc.genText(ctx, 100, 100, score);
@@ -87,7 +88,7 @@ function enemyUpdate() {
 function determineGame(enemy, whiteBlob) {
   if (blob.checkGame(enemy, gameOver, whiteBlob)) {
     if (whiteBlob.radius < enemy.radius) {
-      return (gameOver = true);
+      // return (gameOver = true);
     } else if (whiteBlob.radius >= enemy.radius) {
       whiteBlob.radius += 2;
       multiplier += 2;
@@ -105,38 +106,24 @@ function newGame() {
   whiteBlob.radius = 15;
   enemies = [];
   score = 0;
+  multiplier = 0;
   misc.genText(ctx, canvas.width - 100, canvas.height - 100, score);
-  setInterval(getEnemies, canvas.width / 50);
   drawGame();
 }
 
-async function sendElements(elements) {
-  try {
-    let response = await fetch("/data", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ data: elements }),
-    });
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
-    let data = await response.json();
-    console.log(data.message);
-  } catch (error) {
-    console.error("An error occurred:", error);
-  }
-}
-
-// async function sendData(data) {
-//   const response = await fetch("http://localhost:5000/data", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({ data: data }),
-//   });
-//   const result = await response.json();
-//   console.log(result);
+// async function sendElements(elements) {
+//   try {
+//     let response = await fetch("/data", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({ data: elements }),
+//     });
+//     if (!response.ok) {
+//       throw new Error(`Response status: ${response.status}`);
+//     }
+//     let data = await response.json();
+//     console.log(data.message);
+//   } catch (error) {
+//     console.error("An error occurred:", error);
+//   }
 // }
-
-// sendData([1, 2, 3, 4]);

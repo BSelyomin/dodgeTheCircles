@@ -8,27 +8,31 @@ app.use(bodyParser.json());
 const port = 3000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
-  load();
+  loadMain();
+  loadSingle();
 });
 
-function load() {
+const loadMain = () => {
+  loadFile("/", "gameselectpage/index.html");
+  loadFile("/style.css", "gameselectpage/style.css");
+};
+
+const loadSingle = () => {
   loadFile("/single/", "singleplayer/game.html", "text/html");
   loadFile("/single/style.css", "singleplayer/style.css", "text/css");
-
   fs.readdir("../frontend/singleplayer/js", (err, files) => {
     files.forEach((file) => {
-      loadFile(`/single/js/${file}`, `js/${file}`);
+      loadFile(`/single/js/${file}`, `singleplayer/js/${file}`);
     });
   });
-}
+};
 
 function loadFile(url, dir, type) {
   app.get(url, (req, res) => {
     if (type) {
       res.set("Content-Type", type);
     }
-    array = dir.split("/");
-    res.sendFile(path.join(__dirname, "..", "frontend", ...array));
+    res.sendFile(path.join(__dirname, "..", "frontend", ...dir.split("/")));
   });
 }
 

@@ -2,11 +2,16 @@ import { getRandom } from "./misc.js";
 
 export class Enemy {
   constructor(mult, width, height) {
-    (this.x = 0),
-      (this.y = 0),
-      (this.speedX = 0),
-      (this.speedY = 0),
-      (this.radius = getRandom(10 + mult, 50 + mult));
+    this.x = 0;
+    this.y = 0;
+    this.speedX = 0;
+    this.speedY = 0;
+
+    if (mult < 50) {
+      this.radius = getRandom(10 + mult, 50 + mult);
+    } else {
+      this.radius = getRandom(60, 110);
+    }
     this.color = `rgb(
         ${getRandom(50, 220)},
         ${getRandom(50, 220)},
@@ -20,26 +25,26 @@ export class Enemy {
       case 1:
         this.x = -this.radius;
         this.y = getRandom(0, height);
-        this.speedX = getRandom(0.5, 4);
-        this.speedY = getRandom(-4, 4);
+        this.speedX = getRandom(0.5, 3);
+        this.speedY = getRandom(-3, 3);
         break;
       case 2:
         this.y = -this.radius;
         this.x = getRandom(0, width);
-        this.speedX = getRandom(-4, 4);
-        this.speedY = getRandom(0.5, 4);
+        this.speedX = getRandom(-3, 3);
+        this.speedY = getRandom(0.5, 3);
         break;
       case 3:
         this.y = getRandom(0, height);
         this.x = width + this.radius;
-        this.speedX = getRandom(-4, -0.5);
-        this.speedY = getRandom(-4, 4);
+        this.speedX = getRandom(-3, -0.5);
+        this.speedY = getRandom(-3, 3);
         break;
       case 4:
         this.y = height + this.radius;
         this.x = getRandom(0, width);
-        this.speedX = getRandom(-4, 4);
-        this.speedY = getRandom(-4, -0.5);
+        this.speedX = getRandom(-3, 3);
+        this.speedY = getRandom(-3, -0.5);
     }
   }
 

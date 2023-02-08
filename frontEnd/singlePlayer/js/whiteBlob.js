@@ -1,5 +1,3 @@
-import { getRandom } from "./misc";
-
 export function checkGame(enemy, value, whiteBlob) {
   let distance = Math.sqrt(
     (whiteBlob.x - enemy.x) ** 2 + (whiteBlob.y - enemy.y) ** 2

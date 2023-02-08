@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@font-face {
+    font-family: 'Press Start 2p';
+}
+
+html,
+body,
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-size: 62.5%;
+    color: black;
+    
+} 
+
+
+.grid {
+    display: grid;
+    grid-template-areas: 
+        "text     text     text"
+        "mult     mult    single"
+        "button1 button2 button3";
+
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 160rem;
+}
+
+body {
+    
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    font-family: 'Press Start 2p';
+    
+}
+
+.text {
+    display: flex;
+    justify-content: center;
+}
+
+#title {
+    margin-top: 12rem;
+    grid-area: text;
+    margin-bottom: 8rem;
+}
+
+#mult {
+    grid-area: mult;
+    margin-bottom: 4rem;
+}
+#single {grid-area: single}
+
+h2 {
+    font-size: 4rem;
+    color: white;
+}
+
+h1 {
+    font-size: 6rem; 
+    color: white;
+}
+
+.game-button {
+    font-family:'Press Start 2p';
+    width: 40rem;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 1rem;
+    background-color: #2ecc70;
+    color: #ffffff;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 2px 2px 8px #888888;
+    transition: all 0.2s ease-in-out;
+}
+  
+.game-button:hover {
+    background-color: #229251;
+    transform: translateY(-2px);
+    box-shadow: 2px 4px 8px #888888;
+}
+  
+  .game-button:active {
+    transform: translateY(2px);
+    box-shadow: 0px 0px 8px #888888;
+}

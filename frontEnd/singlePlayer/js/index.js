@@ -1,8 +1,7 @@
-import * as misc from "./misc";
-import * as blob from "./whiteBlob";
-import * as keys from "./keyControl";
-import { Enemy } from "./enemyControl";
-import "../css/style.css";
+import * as misc from "./misc.js";
+import * as blob from "./whiteBlob.js";
+import * as keys from "./keyControl.js";
+import { Enemy } from "./enemyControl.js";
 
 const canvas = document.getElementById("gameArea");
 const ctx = canvas.getContext("2d");
@@ -56,11 +55,11 @@ let requestId,
 
 function getEnemies() {
   enemies.push(new Enemy(multiplier, canvas.clientWidth, canvas.clientHeight));
-  console.log(enemies.length);
 }
 
 function drawGame() {
   misc.clearScreen(ctx, canvas);
+  sendElements(enemies);
 
   enemyUpdate();
   misc.genText(ctx, 100, 100, score);
@@ -105,41 +104,39 @@ function newGame() {
   whiteBlob.y = 300;
   whiteBlob.radius = 15;
   enemies = [];
+  score = 0;
   misc.genText(ctx, canvas.width - 100, canvas.height - 100, score);
   setInterval(getEnemies, canvas.width / 50);
   drawGame();
 }
 
-// async function sendElements() {
-//   const elements = [1, 2, 3];
-//   try {
-//     let response = await fetch("http://localhost:3000/accept-elements", {
-//       method: "POST",
-//       mode: "no-cors",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({ elements }),
-//     });
-//     if (!response.ok) {
-//       // throw new Error(`Response status: ${response.status}`);
-//     }
-//     let data = await response.json();
-//     console.log(data.message);
-//   } catch (error) {
-//     console.error("An error occurred:", error);
-//   }
-// }
-// sendElements();
-
-async function sendData(data) {
-  const response = await fetch("http://localhost:5000/data", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ data: data }),
-  });
-  const result = await response.json();
-  console.log(result);
+async function sendElements(elements) {
+  try {
+    let response = await fetch("/data", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ data: elements }),
+    });
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+    let data = await response.json();
+    console.log(data.message);
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
 }
 
-sendData([1, 2, 3, 4]);
+// async function sendData(data) {
+//   const response = await fetch("http://localhost:5000/data", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({ data: data }),
+//   });
+//   const result = await response.json();
+//   console.log(result);
+// }
+
+// sendData([1, 2, 3, 4]);

@@ -1,4 +1,4 @@
-import { getRandom } from "./misc";
+import { getRandom } from "./misc.js";
 
 export class Enemy {
   constructor(mult, width, height) {

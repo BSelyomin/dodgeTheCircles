@@ -1,0 +1,49 @@
+body {
+    display: grid;
+    grid-template-areas:
+    "join select"
+}
+.join-form {
+    grid-area: join;
+    float: left;
+    width: 90%;
+    padding: 20px;
+    text-align: center;
+  }
+.join-form input[type="text"],
+.join-form input[type="password"] {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .join-form input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  .join-form input[type="submit"]:hover {
+    background-color: #3e8e41;
+  }
+  .rooms-list {
+    grid-area: select;
+    width: 90%;
+    padding: 20px;
+    text-align: center;
+  }
+  .rooms-list h3 {
+    margin: 0;
+  }
+  .room {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f2f2f2;
+    text-align: left;
+  }
+  .room span {
+    display: block;
+    font-weight: bold;
+  }

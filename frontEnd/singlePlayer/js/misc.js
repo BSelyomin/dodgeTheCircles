@@ -55,7 +55,19 @@ export function radiusChecker(r1, r2) {
 }
 
 export function genText(ctx, x, y, text) {
-  ctx.font = "48px robotto";
-  ctx.fillStyle = "white";
-  ctx.fillText(`Score: ${text}`, x, y);
+  ctx.font = "120px robotto";
+  ctx.fillStyle = "red";
+  ctx.fillText(`${text}`, x, y);
+}
+
+export function isClickOnCanvas(event, canvas) {
+  let x = event.clientX;
+  let y = event.clientY;
+  let canvasRect = canvas.getBoundingClientRect();
+  return (
+    x >= canvasRect.left &&
+    x <= canvasRect.right &&
+    y >= canvasRect.top &&
+    y <= canvasRect.bottom
+  );
 }

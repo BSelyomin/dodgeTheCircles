@@ -5,11 +5,21 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="./style.css" >
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
     <title>Dodge The Circles</title>
   </head>
   <body>
-    <canvas id="gameArea"></canvas>
+    <div class="topBar">
+      <h1 id="score">Points: 0</h1>
+      <h2 class="click">Click to Start</h2>
+      <a href="/">
+        <button class="home-button" ><i class="fas fa-home"></i></button>
+      </a>
+    </div>
+      <div class="container">
+      <canvas id="gameArea"></canvas>
+    </div>
     <script type="module" src="./js/index.js" ></script>
-    <a href="/"><button class="game-button" >Home</button></a>
+    
 </body>
 </html>

@@ -5,6 +5,7 @@ import { Enemy } from "./enemyControl.js";
 
 const canvas = document.getElementById("gameArea");
 const ctx = canvas.getContext("2d");
+const scoreElement = document.getElementById("score");
 
 ctx.font = "48px sans-serif";
 ctx.fillStyle = "black";
@@ -20,13 +21,14 @@ let whiteBlob = {
 
 window.onload = () => {
   canvas.width = window.innerWidth - 17;
-  canvas.height = window.innerHeight - 17;
+  canvas.height = (window.innerHeight * 8.85) / 10 - 17;
   misc.clearScreen(ctx, canvas);
 };
 
 window.onresize = () => {
   canvas.width = window.innerWidth - 17;
-  canvas.height = window.innerHeight - 17;
+  canvas.height = (window.innerHeight * 8.85) / 10 - 17;
+
   misc.clearScreen(ctx, canvas);
 };
 
@@ -38,7 +40,11 @@ document.body.addEventListener(
   "keyup",
   (event) => (arrows = keys.keyUp(event, arrows))
 );
-document.body.addEventListener("click", newGame);
+document.body.addEventListener("click", (event) => {
+  if (misc.isClickOnCanvas(event, canvas)) {
+    newGame();
+  }
+});
 
 let arrows = {
   downPressed: false,
@@ -63,12 +69,15 @@ function drawGame() {
   // sendElements(enemies);
 
   enemyUpdate();
-  misc.genText(ctx, 100, 100, score);
+
+  scoreElement.innerHTML = `Points: ${score}`;
   whiteBlob = keys.inputs(whiteBlob, arrows);
   whiteBlob = blob.whiteBlobBoundry(whiteBlob, canvas);
   blob.drawWhiteBlob(whiteBlob, ctx);
   if (!gameOver) {
     requestId = requestAnimationFrame(drawGame);
+  } else {
+    misc.genText(ctx, canvas.width / 2 - 300, canvas.height / 2, "Game Over");
   }
 }
 
@@ -88,7 +97,7 @@ function enemyUpdate() {
 function determineGame(enemy, whiteBlob) {
   if (blob.checkGame(enemy, gameOver, whiteBlob)) {
     if (whiteBlob.radius < enemy.radius) {
-      // return (gameOver = true);
+      return (gameOver = true);
     } else if (whiteBlob.radius >= enemy.radius) {
       whiteBlob.radius += 2;
       multiplier += 2;

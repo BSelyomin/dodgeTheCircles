@@ -4,8 +4,6 @@ let dom = {
   list: document.querySelector("ul"),
 };
 
-// const socket = new WebSocket(`room//data`);
-
 window.onload = async () => {
   let name = localStorage.getItem("name");
   if (name === null) {
@@ -18,8 +16,10 @@ window.onload = async () => {
   let data = await fetch(`${window.location.href}/first`).then((response) =>
     response.json()
   );
-  if (data.host === name) {
-  } else {
+
+  const socket = new WebSocket(`room/${data.code}/data`);
+
+  if (data.host !== name) {
   }
   //   socket.addEventListener("message", (event) => {
   //     socket.send(JSON.stringify(name));

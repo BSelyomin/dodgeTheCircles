@@ -8,7 +8,7 @@ const app = express();
 app.use(bodyParser.json());
 expressWs(app);
 
-const port = 3000;
+const port = 80;
 
 let rooms = [];
 

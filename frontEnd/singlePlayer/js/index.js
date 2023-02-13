@@ -61,12 +61,12 @@ let requestId,
 
 function getEnemies() {
   enemies.push(new Enemy(multiplier, canvas.clientWidth, canvas.clientHeight));
+  enemies = enemies.sort((a, b) => b.radius - a.radius);
 }
 setInterval(getEnemies, canvas.width / 10);
 
 function drawGame() {
   misc.clearScreen(ctx, canvas);
-  // sendElements(enemies);
 
   enemyUpdate();
 
@@ -119,20 +119,3 @@ function newGame() {
   misc.genText(ctx, canvas.width - 100, canvas.height - 100, score);
   drawGame();
 }
-
-// async function sendElements(elements) {
-//   try {
-//     let response = await fetch("/data", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({ data: elements }),
-//     });
-//     if (!response.ok) {
-//       throw new Error(`Response status: ${response.status}`);
-//     }
-//     let data = await response.json();
-//     console.log(data.message);
-//   } catch (error) {
-//     console.error("An error occurred:", error);
-//   }
-// }

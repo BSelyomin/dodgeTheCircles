@@ -1,49 +1,91 @@
 body {
-    display: grid;
-    grid-template-areas:
-    "join select"
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #333;
+  color: white;
+  height: 100vh;
+  margin: 0;
 }
+
 .join-form {
-    grid-area: join;
-    float: left;
-    width: 90%;
-    padding: 20px;
-    text-align: center;
-  }
+  width: 45%;
+  padding: 20px;
+  text-align: center;
+  background-color: #444;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px #333;
+  height: 90%;
+}
+
 .join-form input[type="text"],
 .join-form input[type="password"] {
-    display: block;
-    margin: 10px 0;
-    padding: 10px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  .join-form input[type="submit"] {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  .join-form input[type="submit"]:hover {
-    background-color: #3e8e41;
-  }
-  .rooms-list {
-    grid-area: select;
-    width: 90%;
-    padding: 20px;
-    text-align: center;
-  }
-  .rooms-list h3 {
-    margin: 0;
-  }
-  .room {
-    margin: 10px 0;
-    padding: 10px;
-    background-color: #f2f2f2;
-    text-align: left;
-  }
-  .room span {
-    display: block;
-    font-weight: bold;
-  }
+  display: block;
+  margin: 10px 0;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 5px;
+  background-color: #555;
+  color: black;
+}
+
+.join-form input[type="submit"] {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.join-form input[type="submit"]:hover {
+  background-color: #3e8e41;
+
+}
+
+.rooms-list {
+  width: 45%;
+  padding: 20px;
+  text-align: center;
+  background-color: #444;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px #333;
+  height: 90%;
+}
+
+.rooms-list h3 {
+  margin: 0;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.room {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #222;
+  text-align: left;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px #333;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.room span {
+  display: block;
+  font-weight: bold;
+}
+
+.room:hover {
+  background-color: #444;
+}
+
+#text-form {
+  color: white;
+}

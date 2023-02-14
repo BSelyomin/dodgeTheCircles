@@ -56,42 +56,38 @@ app.post("/name/create", (req, res) => {
   loadFile(`/room/${randomCode}/`, "createroom/create.html");
   loadFile(`/room/${randomCode}/style.css`, "createroom/style.css", "text/css");
   loadFile(`/room/${randomCode}/index.js`, "createroom/index.js");
-  rooms.push({
+  let room = {
     location: `/room/${randomCode}/`,
     code: randomCode,
     players: 1,
     host: name,
     otherPlayers: [],
-  });
+  };
   res.json({ location: `/room/${randomCode}/`, code: randomCode });
-  loadRooms();
+  loadRooms(room);
 });
 
-const loadRooms = () => {
-  rooms.forEach((room) => {
-    // app.get(`${room.location}/first`, (req, res) => {
-    //   res.json(room);
-    // });
-    app.ws(`/room/${room.code}/data`, (ws, req) => {
-      connectedClients.add(ws);
-      ws.send(JSON.stringify(room));
-      ws.on("message", (message) => {
-        let data = [];
-        console.log(message);
-        data.push(JSON.parse(message));
-        console.log(req.app.get());
-        for (const client of connectedClients) {
-          if (client.readyState === client.OPEN) {
-            client.send(message);
-          }
-          // req.app.get(`/room/${room.code}/data`).clients.forEach((client) => {
-          //   client.send(JSON.stringify(data));
-          // });
+const loadRooms = (room) => {
+  app.ws(`/room/${room.code}/data`, (ws, req) => {
+    connectedClients.add(ws);
+    ws.send(JSON.stringify(room));
+
+    ws.on("message", (message) => {
+      let data = [];
+      console.log(message);
+      data.push(JSON.parse(message));
+      console.log(data);
+      for (const client of connectedClients) {
+        if (client.readyState === client.OPEN) {
+          client.send(message);
         }
-      });
-      ws.on("close", () => {
-        connectedClients.delete(ws);
-      });
+        // req.app.get(`/room/${room.code}/data`).clients.forEach((client) => {
+        //   client.send(JSON.stringify(data));
+        // });
+      }
+    });
+    ws.on("close", () => {
+      connectedClients.delete(ws);
     });
   });
 };

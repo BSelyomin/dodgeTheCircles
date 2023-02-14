@@ -17,8 +17,8 @@ window.onload = async () => {
   //     response.json()
   //   );
   let url = window.location.href;
-  console.log(url.split("/"));
-  const socket = new WebSocket(`ws://localhost/room/${data.code}/data`);
+  url = url.split("/");
+  const socket = new WebSocket(`ws://${url[2]}/room/${url[4]}/data`);
 
   socket.addEventListener("message", (event) => {
     socket.send(JSON.stringify(name));

@@ -64,10 +64,14 @@ app.post("/name/create", (req, res) => {
     otherPlayers: [],
   });
   res.json({ location: `/room/${randomCode}/`, code: randomCode });
+  loadRooms();
+});
+
+const loadRooms = () => {
   rooms.forEach((room) => {
-    app.get(`${room.location}/first`, (req, res) => {
-      res.json(room);
-    });
+    // app.get(`${room.location}/first`, (req, res) => {
+    //   res.json(room);
+    // });
     app.ws(`/room/${room.code}/data`, (ws, req) => {
       connectedClients.add(ws);
       ws.send(JSON.stringify(room));
@@ -90,7 +94,7 @@ app.post("/name/create", (req, res) => {
       });
     });
   });
-});
+};
 
 function loadFile(url, dir, type) {
   app.get(url, (req, res) => {

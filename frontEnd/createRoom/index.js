@@ -13,9 +13,9 @@ window.onload = async () => {
     localStorage.removeItem("path");
   }
 
-  let data = await fetch(`${window.location.href}/first`).then((response) =>
-    response.json()
-  );
+  //   let data = await fetch(`${window.location.href}/first`).then((response) =>
+  //     response.json()
+  //   );
   let url = window.location.href;
   console.log(url.split("/"));
   const socket = new WebSocket(`ws://localhost/room/${data.code}/data`);

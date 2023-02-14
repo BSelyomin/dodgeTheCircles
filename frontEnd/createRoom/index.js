@@ -16,20 +16,21 @@ window.onload = async () => {
   let data = await fetch(`${window.location.href}/first`).then((response) =>
     response.json()
   );
+  let url = window.location.href;
+  console.log(url.split("/"));
+  const socket = new WebSocket(`ws://localhost/room/${data.code}/data`);
 
-  const socket = new WebSocket(`room/${data.code}/data`);
+  socket.addEventListener("message", (event) => {
+    socket.send(JSON.stringify(name));
+    const data = JSON.parse(event.data);
+    console.log(data);
+  });
 
   if (data.host !== name) {
   }
-  //   socket.addEventListener("message", (event) => {
-  //     socket.send(JSON.stringify(name));
-  //     const data = JSON.parse(event.data);
-  //     console.log(data);
-  //   });
-
-  room.playerNames.array.forEach((name, index) => {});
-  let li = document.createElement("li");
-  li.textContent = localStorage.getItem("name");
+  //   data.playerNames.array.forEach((name, index) => {});
+  //   let li = document.createElement("li");
+  //   li.textContent = localStorage.getItem("name");
 };
 
 // Listen for messages from the server

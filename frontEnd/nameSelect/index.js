@@ -34,6 +34,8 @@ elements.form.addEventListener("submit", async (e) => {
       window.location.href = url.location;
     } else if (path === "join") {
       window.location.href = "/join/";
+    } else if (path === null || path === undefined) {
+      window.location.href = "/";
     } else {
       window.location.href = path;
     }

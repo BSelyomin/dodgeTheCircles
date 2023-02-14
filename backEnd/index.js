@@ -10,6 +10,7 @@ expressWs(app);
 
 const port = 80;
 
+const connectedClients = new Set();
 let rooms = [];
 
 app.listen(port, () => {
@@ -67,18 +68,25 @@ app.post("/name/create", (req, res) => {
     app.get(`${room.location}/first`, (req, res) => {
       res.json(room);
     });
-    app.ws(room.location, (ws, req) => {
+    app.ws(`/room/${room.code}/data`, (ws, req) => {
+      connectedClients.add(ws);
       ws.send(JSON.stringify(room));
-
-      // Listen for messages from the client
       ws.on("message", (message) => {
-        // Add the new data to the array
+        let data = [];
+        console.log(message);
         data.push(JSON.parse(message));
-
-        // Broadcast the updated data to all clients
-        req.app.get("ws://data").clients.forEach((client) => {
-          client.send(JSON.stringify(data));
-        });
+        console.log(req.app.get());
+        for (const client of connectedClients) {
+          if (client.readyState === client.OPEN) {
+            client.send(message);
+          }
+          // req.app.get(`/room/${room.code}/data`).clients.forEach((client) => {
+          //   client.send(JSON.stringify(data));
+          // });
+        }
+      });
+      ws.on("close", () => {
+        connectedClients.delete(ws);
       });
     });
   });

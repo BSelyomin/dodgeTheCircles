@@ -74,12 +74,11 @@ const loadRooms = (room) => {
 
     ws.on("message", (message) => {
       let data = [];
-      console.log(message);
+      console.log(JSON.parse(message));
       data.push(JSON.parse(message));
-      console.log(data);
       for (const client of connectedClients) {
         if (client.readyState === client.OPEN) {
-          client.send(message);
+          client.send(Object.entries(room));
         }
         // req.app.get(`/room/${room.code}/data`).clients.forEach((client) => {
         //   client.send(JSON.stringify(data));

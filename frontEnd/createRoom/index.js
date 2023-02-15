@@ -20,14 +20,16 @@ window.onload = async () => {
   url = url.split("/");
   const socket = new WebSocket(`ws://${url[2]}/room/${url[4]}/data`);
 
+  let data = [];
   socket.addEventListener("message", (event) => {
-    socket.send(JSON.stringify(name));
-    const data = JSON.parse(event.data);
+    if (data.host !== name) {
+      socket.send(JSON.stringify(name));
+    }
+
+    data = event.data;
     console.log(data);
   });
 
-  if (data.host !== name) {
-  }
   //   data.playerNames.array.forEach((name, index) => {});
   //   let li = document.createElement("li");
   //   li.textContent = localStorage.getItem("name");

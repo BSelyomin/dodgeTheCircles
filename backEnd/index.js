@@ -4,6 +4,7 @@ const fs = require("fs");
 const crypto = require("crypto");
 const expressWs = require("express-ws");
 const express = require("express");
+const { json } = require("body-parser");
 const app = express();
 app.use(bodyParser.json());
 expressWs(app);
@@ -62,6 +63,7 @@ app.post("/name/create", (req, res) => {
     players: 1,
     host: name,
     otherPlayers: [],
+    messageType: null,
   };
   res.json({ location: `/room/${randomCode}/`, code: randomCode });
   loadRooms(room);
@@ -70,20 +72,31 @@ app.post("/name/create", (req, res) => {
 const loadRooms = (room) => {
   app.ws(`/room/${room.code}/data`, (ws, req) => {
     connectedClients.add(ws);
+    room.messageType = "first";
     ws.send(JSON.stringify(room));
-
+    room.messageType = null;
     ws.on("message", (message) => {
-      let data = [];
-      console.log(JSON.parse(message));
-      data.push(JSON.parse(message));
-      for (const client of connectedClients) {
-        if (client.readyState === client.OPEN) {
-          client.send(Object.entries(room));
+      let data = JSON.parse(message);
+      if (
+        data.type === "name" &&
+        data.data !== room.host &&
+        !room.otherPlayers.includes(data.data)
+      ) {
+        room.players++;
+        room.otherPlayers.push(data.data);
+
+        for (const client of connectedClients) {
+          if (client.readyState === client.OPEN) {
+            client.send(JSON.stringify(room));
+          }
         }
-        // req.app.get(`/room/${room.code}/data`).clients.forEach((client) => {
-        //   client.send(JSON.stringify(data));
-        // });
       }
+
+      // for (const client of connectedClients) {
+      //   if (client.readyState === client.OPEN) {
+      //     client.send(JSON.stringify(room));
+      //   }
+      // }
     });
     ws.on("close", () => {
       connectedClients.delete(ws);

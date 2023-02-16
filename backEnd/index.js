@@ -71,6 +71,10 @@ app.post("/name/create", (req, res) => {
 
 const loadRooms = (room) => {
   app.ws(`/room/${room.code}/data`, (ws, req) => {
+    if (room.players === 6) {
+      ws.send(JSON.stringify({ messageType: "overflow" }));
+      return;
+    }
     connectedClients.add(ws);
     room.messageType = "first";
     ws.send(JSON.stringify(room));
@@ -85,6 +89,16 @@ const loadRooms = (room) => {
         room.players++;
         room.otherPlayers.push(data.data);
 
+        for (const client of connectedClients) {
+          if (client.readyState === client.OPEN) {
+            client.send(JSON.stringify(room));
+          }
+        }
+      }
+
+      if (data.type === "close") {
+        room.otherPlayers.splice(room.otherPlayers.indexOf(data.name), 1);
+        room.players--;
         for (const client of connectedClients) {
           if (client.readyState === client.OPEN) {
             client.send(JSON.stringify(room));

@@ -5,15 +5,20 @@ let dom = {
 };
 
 window.onload = async () => {
-  let currentRoom = localStorage.getItem(currentRoom);
-
-  if (currentRoom !== undefined) {
-    if (currentRoom.location !== window.location.href) {
-      window.location.href = currentRoom.location;
-    }
+  let currentRoom = localStorage.getItem("currentRoom");
+  console.log(currentRoom);
+  let name;
+  if (currentRoom === null || currentRoom === undefined) {
+    localStorage.setItem("currentRoom", window.location.href);
+    name = localStorage.getItem("name");
+    console.log(3);
+  } else if (currentRoom !== window.location.href) {
+    console.log(2);
+    window.location.href = currentRoom;
+    return;
+  } else {
+    console.log(1);
   }
-  let name = localStorage.getItem("name");
-  localStorage.removeItem("name");
   let ifHost = localStorage.getItem("host");
   localStorage.removeItem("host");
   if (name === null) {
@@ -22,10 +27,6 @@ window.onload = async () => {
     return;
   } else {
     localStorage.removeItem("path");
-    localStorage.setItem("currentRoom", {
-      location: window.location.href,
-      name: name,
-    });
   }
 
   let url = window.location.href.split("/");
@@ -35,6 +36,7 @@ window.onload = async () => {
     e.preventDefault();
     socket.send(JSON.stringify({ type: "close", data: name }));
     localStorage.remove("currentRoom");
+    localStorage.removeItem("name");
   });
 
   socket.addEventListener("message", (event) => {

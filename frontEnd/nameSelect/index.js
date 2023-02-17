@@ -31,6 +31,7 @@ elements.form.addEventListener("submit", async (e) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: name }),
       }).then((response) => response.json());
+      localStorage.setItem("host", true);
       window.location.href = url.location;
     } else if (path === "join") {
       window.location.href = "/join/";

@@ -5,9 +5,17 @@ let dom = {
 };
 
 window.onload = async () => {
+  let currentRoom = localStorage.getItem(currentRoom);
+
+  if (currentRoom !== undefined) {
+    if (currentRoom.location !== window.location.href) {
+      window.location.href = currentRoom.location;
+    }
+  }
   let name = localStorage.getItem("name");
   localStorage.removeItem("name");
-
+  let ifHost = localStorage.getItem("host");
+  localStorage.removeItem("host");
   if (name === null) {
     localStorage.setItem("path", window.location.href);
     window.location.href = "/name/";
@@ -25,7 +33,7 @@ window.onload = async () => {
 
   window.addEventListener("beforeunload", function (e) {
     e.preventDefault();
-    socket.send(JSON.stringify({ type: "name", data: name }));
+    socket.send(JSON.stringify({ type: "close", data: name }));
     localStorage.remove("currentRoom");
   });
 
@@ -36,23 +44,24 @@ window.onload = async () => {
     }
 
     if (data.messageType == "first") {
-      console.log(data.otherPlayers.includes(name));
-      if (data.otherPlayers.includes(name) || data.host === name) {
-        localStorage.setItem("path", window.location.href);
-        window.location.href = "/name/";
+      if (!ifHost) {
+        if (data.otherPlayers.includes(name) || data.host === name) {
+          localStorage.setItem("path", window.location.href);
+          window.location.href = "/name/";
+        }
       }
+
       socket.send(JSON.stringify({ type: "name", data: name }));
     }
     console.log(data);
     update(data.code, data.players, data.host, data.otherPlayers);
   });
-
-  //   data.playerNames.array.forEach((name, index) => {});
-  //   let li = document.createElement("li");
-  //   li.textContent = localStorage.getItem("name");
 };
 
 function update(code, players, host, names) {
+  document.querySelectorAll("li").forEach((li) => {
+    li.innerHTML = "";
+  });
   dom.code.innerHTML = `Room Code: ${code}`;
   dom.playerCounter.innerHTML = `Player List (${players}/6):`;
   dom.host.innerHTML = `${host} (Host)`;
@@ -62,25 +71,3 @@ function update(code, players, host, names) {
     });
   }
 }
-
-// Listen for messages from the server
-
-// Send data to the server
-// socket.send(JSON.stringify({ ... } ));
-
-// async function sendElements(elements) {
-//   try {
-//     let response = await fetch("/data", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({ data: elements }),
-//     });
-//     if (!response.ok) {
-//       throw new Error(`Response status: ${response.status}`);
-//     }
-//     let data = await response.json();
-//     console.log(data.message);
-//   } catch (error) {
-//     console.error("An error occurred:", error);
-//   }
-// }

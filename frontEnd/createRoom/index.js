@@ -6,21 +6,18 @@ let dom = {
 
 window.onload = async () => {
   let currentRoom = localStorage.getItem("currentRoom");
-  console.log(currentRoom);
-  let name;
+  let name = null;
+  let inRoom = "no";
   if (currentRoom === null || currentRoom === undefined) {
     localStorage.setItem("currentRoom", window.location.href);
     name = localStorage.getItem("name");
-    console.log(3);
-  } else if (currentRoom !== window.location.href) {
-    console.log(2);
+  } else if (currentRoom === window.location.href) {
+    name = localStorage.getItem("name");
+    inRxoom = "yes";
+  } else {
     window.location.href = currentRoom;
     return;
-  } else {
-    console.log(1);
   }
-  let ifHost = localStorage.getItem("host");
-  localStorage.removeItem("host");
   if (name === null) {
     localStorage.setItem("path", window.location.href);
     window.location.href = "/name/";
@@ -46,7 +43,7 @@ window.onload = async () => {
     }
 
     if (data.messageType == "first") {
-      if (!ifHost) {
+      if (inRoom === "no") {
         if (data.otherPlayers.includes(name) || data.host === name) {
           localStorage.setItem("path", window.location.href);
           window.location.href = "/name/";

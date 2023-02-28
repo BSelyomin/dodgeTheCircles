@@ -1,6 +1,8 @@
 const join = document.querySelector("#joinGame");
 const create = document.querySelector("#createGame");
 
+localStorage.removeItem("currentRoom");
+
 join.addEventListener("click", () => {
   localStorage.setItem("path", "join");
 

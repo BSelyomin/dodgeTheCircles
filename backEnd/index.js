@@ -104,12 +104,6 @@ const loadRooms = (room) => {
           }
         }
       }
-
-      // for (const client of connectedClients) {
-      //   if (client.readyState === client.OPEN) {
-      //     client.send(JSON.stringify(room));
-      //   }
-      // }
     });
     ws.on("close", () => {
       connectedClients.delete(ws);

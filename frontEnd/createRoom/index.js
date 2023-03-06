@@ -7,8 +7,9 @@ let dom = {
 window.onload = async () => {
   let currentRoom = localStorage.getItem("currentRoom");
   let name = null;
+  console.log(currentRoom);
   if (!currentRoom) {
-    localStorage.setItem("currentRoom", window.location.href);
+    // localStorage.setItem("currentRoom", window.location.href);
     name = localStorage.getItem("name");
   } else if (currentRoom === window.location.href) {
     name = localStorage.getItem("name");
@@ -16,7 +17,6 @@ window.onload = async () => {
     window.location.href = currentRoom;
     return;
   }
-  console.log(name);
   if (name === null) {
     localStorage.setItem("path", window.location.href);
     window.location.href = "/name/";

@@ -1,0 +1,31 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#game {
+    display: flex;
+    height: 98vh;
+}
+
+#player-canvas {
+    background-color: black;
+
+    width: 85vw;
+    
+
+    background-color: #ddd;
+}
+
+#enemy-canvas-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #eee;
+    width: 15vw;
+    aspect-ratio: 2 / 1 ;
+}
+
+.enemy-canvas {
+    margin: 10px;
+    background-color: #fff;
+}

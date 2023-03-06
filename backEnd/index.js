@@ -12,7 +12,7 @@ expressWs(app);
 const port = 80;
 
 const connectedClients = new Set();
-let rooms = [];
+let rooms = new Set();
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
@@ -66,6 +66,8 @@ app.post("/name/create", (req, res) => {
     messageType: null,
   };
   res.json({ location: `/room/${randomCode}/`, code: randomCode });
+  rooms.add(room);
+  console.log(rooms);
   loadRooms(room);
 });
 
@@ -123,4 +125,9 @@ function loadFile(url, dir, type) {
 app.post("/data", (req, res) => {
   let data = req.body.data;
   res.json({ message: "Data received at the backend." });
+});
+
+app.get("/join/list", (req, res) => {
+  console.log(rooms);
+  res.send({ rooms });
 });

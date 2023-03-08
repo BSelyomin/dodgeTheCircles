@@ -99,7 +99,6 @@ const loadRooms = (room) => {
       }
       if (data.type === "close") {
         room.otherPlayers.splice(room.otherPlayers.indexOf(data.name), 1);
-        room.players--;
         for (const client of connectedClients) {
           if (client.readyState === client.OPEN) {
             client.send(JSON.stringify(room));

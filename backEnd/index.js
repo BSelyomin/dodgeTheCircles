@@ -9,7 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 expressWs(app);
 
-const port = 80;
+const port = process.env.PORT || 80;
 
 const connectedClients = new Set();
 let rooms = new Set();
